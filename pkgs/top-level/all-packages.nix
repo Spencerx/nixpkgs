@@ -11405,10 +11405,10 @@ with pkgs;
     emacs30-nox
     emacs30-pgtk
 
-    emacs29-macport
+    emacs30-macport
     ;
 
-  emacs-macport = emacs29-macport;
+  emacs-macport = emacs30-macport;
   emacs = emacs30;
   emacs-gtk = emacs30-gtk3;
   emacs-nox = emacs30-nox;
@@ -11734,11 +11734,11 @@ with pkgs;
 
   manim = python3Packages.toPythonApplication python3Packages.manim;
 
-  manim-slides = python3Packages.toPythonApplication (
-    python3Packages.manim-slides.override {
-      withGui = true;
-    }
-  );
+  manim-slides =
+    (python3Packages.toPythonApplication python3Packages.manim-slides).overridePythonAttrs
+      (oldAttrs: {
+        dependencies = oldAttrs.dependencies ++ oldAttrs.optional-dependencies.pyqt6-full;
+      });
 
   manuskript = libsForQt5.callPackage ../applications/editors/manuskript { };
 
